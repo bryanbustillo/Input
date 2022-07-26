@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>Input animado</title>
+
+	<style>
+		input,
+		select,
+		textarea,
+		#spanid {
+			border: none;
+			background: white;
+			box-sizing: border-box;
+			font-family: Verdana;
+			font-size: 12px;
+			line-height: 12px;
+			outline: none;
+			padding: 0;
+			resize: none;
+			width: 300px;
+		}
+
+		.fake_placeholder {
+			margin-bottom: 10px;
+		}
+
+		/* el label emula el aspecto del input */
+		.fake_placeholder label {
+			border: 2px solid silver;
+			display: inline-block;
+			padding: 10px;
+			position: relative;
+		}
+
+		.fake_placeholder #spanid {
+			color: silver;
+			display: inline-block;
+			left: 2px;
+			padding: 5px;
+			position: absolute;
+			transition: 0.25s;
+			top: 9px;
+			width: auto;
+		}
+
+		.fake_placeholder #spanid.reubicar {
+			color: black;
+			font-size: 12px;
+			top: -12px;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="fake_placeholder">
+		<label>
+			<span id="spanid">Tu usuario</span>
+			<input id="12345" type="text" name="usuario" autocomplete="off" />
+		</label>
+	</div>
+
+	<div class="fake_placeholder">
+		<label>
+			<span id="spanid">Tu clave</span>
+			<input type="password" name="clave" autocomplete="off" />
+		</label>
+	</div>
+
+	<script>
+		const inputs = document.querySelectorAll('.fake_placeholder input');
+		
+
+		inputs.forEach(input => {
+			//cuando entramos en el input 
+			input.onfocus = () => {
+				//al elemento anterior (el span) le agregamos la clase que la reubica en top
+				document.getElementById("12345").value = 'Hola';
+				
+				input.previousElementSibling.classList.add('reubicar');
+			}
+
+			//cuando salimos del input
+			input.onblur = () => {
+				//si no hay texto, le quitamos la clase reubicar, 
+				//para que se superponga con el input
+				if (input.value.trim().length == 0)
+					input.previousElementSibling.classList.remove('reubicar');
+			}
+		});
+	</script>
+</body>
+
+</html>
